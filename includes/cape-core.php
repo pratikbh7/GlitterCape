@@ -66,8 +66,8 @@ class Cape_Core {
 		$cape_admin = new Cape_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		// $this->loader->add_action( 'admin_notices', $cape_admin, 'cape_admin_notices' ); configuration notice outside plugin admin page
-		$this->loader->add_action( 'init', $cape_admin, 'register_cape_post_type' );
 		$this->loader->add_action( 'init', $cape_admin, 'register_cape_taxonomy' );
+		$this->loader->add_action( 'init', $cape_admin, 'register_cape_post_type' );
 		$this->loader->add_action( 'init', $cape_admin,'share_namespace_with_cape' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $cape_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $cape_admin, 'enqueue_scripts' );

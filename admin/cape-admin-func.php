@@ -150,8 +150,10 @@ class Cape_Admin {
 			$category = sanitize_text_field( $_POST['category'] );
 			$post_args = array( 'post_type'   => 'cape_slide', 
 								'numberposts' => -1, 
-								'tax_query'   => array( 'taxonomy'        => 'cape_slide_categories',
-													   'include_children' => true));
+								'tax_query'   => array( array(  'taxonomy'        => 'cape_slide_categories',
+																'field'           => 'name',
+																'terms'           => $category,
+																'include_children'=> true )));
 			$message = get_posts( $post_args );
 			wp_send_json( $message );	
 			wp_die();
@@ -208,7 +210,7 @@ class Cape_Admin {
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array( 'slug' => 'slide_categories', 'hierarchical' => true ),
-			'args'              => array( 'usage' => 'For GlitterCape Plugin') 
+			'args'              => array( 'usage' => 'For the Horde' ) 
 		);
 	
 		register_taxonomy( 'cape_slide_categories', array( 'cape_slide' ), $args );
@@ -268,7 +270,7 @@ class Cape_Admin {
 			'query_var'          => true,
 			'map_meta_cap'       => true, 
 			'rewrite'            => array( 'slug' => 'cape_slides', 'with_front' => true ),
-			'taxonomies'         => array( 'cape_slide_categories', 'post_tag', 'terms'), 
+			'taxonomies'         => array( 'cape_slide_categories', 'post_tag', 'terms' ), 
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields', 'trackbacks' ),

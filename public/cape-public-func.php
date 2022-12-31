@@ -10,6 +10,7 @@ use admin\database\Database;
  * @subpackage GlitterCape/public
  */
 
+
 class Cape_Public {
 
 	private $plugin_name;
@@ -42,5 +43,5 @@ class Cape_Public {
 		return $tag;
 
 	}  
-	
+
 }
