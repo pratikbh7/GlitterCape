@@ -81,10 +81,10 @@ class Cape_Core {
 
 		$cape_public = new Cape_Public( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'init', $this->content, 'add_cape_shortcode' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $cape_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $cape_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'script_loader_tag', $cape_public, 'add_type_script_attribute', 10, 3 );
-		// $this->loader->add_action( 'init', $this->content, )
 
 	}
 

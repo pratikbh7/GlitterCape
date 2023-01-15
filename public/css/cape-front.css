@@ -1,54 +1,112 @@
 @media( min-width:1200px){
 
     #cape_slide_container{
-        max-width : 700px;
-        height : 700px;
+        padding: 0;
+        min-width: 1200px;
+        max-width: 100%;
+        height : 640px;
+        margin : 0;
+    }
+    .cape_slides{
+        /* display: none; */
+        position:absolute;
+        width: 640px;
+        height: 640px;
+    }
+    .next-right-arrow{
+        /* display: none; */
+        cursor: pointer;
+        position: absolute;
+        height : 50px;
+        width : 50px;
+        border-radius:50%;
+        background : #b62a2a;
+        z-index: 9999;
+      }
+      .next-left-arrow{
+        /* display: none; */
+        cursor: pointer;
+        position: absolute;
+        height : 50px;
+        width : 50px;
+        border-radius:50%;
+        background : #b62a2a;
+        z-index: 9999;
+      }
+      .next-right-arrow::after,
+      .next-left-arrow::after {
+        content: "";
+        position: relative;
+        z-index: 11;
+        display: block;
+        width: 25px;
+        height: 25px;
+        border-top: 2px solid #fff;
+        border-left: 2px solid #fff;
+      }
+      .next-right-arrow::after {
+        transform: rotate(135deg);
+        left: 8px;
+        top : 11px;
+      }
+      .next-left-arrow::after {
+        transform: rotate(-45deg);
+        left: 16px;
+        top : 11px;
+      }
+      
+    }   
+
+@media( max-width:1199px){
+    #cape_slide_container{
+        width : 100%;
+        max-width: 100%;
+        height : 600px;
         margin : 0 auto;
     }
     .cape_slides{
         position:absolute;
-        width: 700px;
-    }
-
-}
-@media( max-width:1199px){
-    #cape_slide_container{
-        max-width : 600px;
-        height : 600px;
-        margin : 0 auto;
+        width: 600px;
+        height: 600px;
     }
 }
 @media( max-width: 1024px ){
 
     #cape_slide_container{
-        max-width : 580px;
+        width : 100%;
+        max-width: 100%;
         height: 580px;
         margin : 0 auto;
     }
     .cape_slides{
         position:absolute;
         width: 580px;
+        height : 580px;
     }
 }
 @media( max-width: 768px ){
 
     #cape_slide_container{
-        max-width : 450px;
+        width : 100%;
+        max-width: 100%;
         height : 450px;
         margin : 0 auto;
     }
     .cape_slides{
         position:absolute;
         width: 450px;
+        height: 450px;
     }
 
 }
 .cape_slides{
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 700px;
     text-align: center;
+}
+.cape_slides > p{
+    color : wheat;
 }
 
 

@@ -96,9 +96,9 @@ namespace admin\database;
         $retrieve_query = 'SELECT * FROM `' . $this->primary_table . '` LIMIT 1';
         $prepare_retrieve_query = $this->db->prepare( $retrieve_query );
         $run_retrieve_query = $this->db->get_row( $prepare_retrieve_query, ARRAY_N );
-        if( $run_retrieve_query === false){
+        if( $run_retrieve_query === null){
 
-            $this->db_error_handle();
+            return false;
 
         }
         else{
