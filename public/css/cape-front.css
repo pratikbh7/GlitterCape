@@ -105,11 +105,32 @@
     background-position: center;
     text-align: center;
 }
-.cape_slides > p{
-    color : wheat;
+.cape_post_content{
+    background: #e6e5ea;
+    border-radius: 0.2em;
+    width: 65%;
+    height: 65%;
+    margin: 0 auto;
+    top: 17.5%;
+    left: 17.5%;
+    position: absolute;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
-
-
+.cape_post_description > p{
+    padding: 0 1.2em;
+}
+.cape_post_title{
+    background: #696473;
+    box-shadow: 0px 0.2em 0.5em;
+}
+.cape_post_title > p{
+    margin: 0;
+    padding: 0.4em 0 0 0;
+    text-align: center;
+    font-size: 1.6rem;
+}
 
 
 

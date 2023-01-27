@@ -27,7 +27,7 @@ class Cape_Shortcode{
         $db = Database::get_cape_db_instance();
         $slide_data = $db->get_slider_config_data();
         if( $slide_data === false){
-            $cape_content = '<p style="text-align: center;">0 rows fetched';
+            $cape_content = '<p style="text-align: center;">0 rows fetched</p>';
         }
         else{
             ob_start();

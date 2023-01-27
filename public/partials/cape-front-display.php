@@ -84,8 +84,17 @@ $index = 0; ?>
     <?php
     foreach( $cape_slides as $slide ){
         $slide_title = $slide->post_title;
-        if( in_array( $slide_title, $slides) ){
-            //instead of using wp_query to retrieve attachment id and get image path:   
+        if( in_array( $slide_title, $slides) ){ 
+            $author_name = get_the_author_meta('display_name', $slide->post_author);
+            $post_content = __( $slide->post_content, 'textdomain' );
+            $post_content = apply_filters( 'the_content' , $post_content);
+            // $post_content = str_replace(']]>', ']]&gt;', $content);
+            $post_content = str_replace( array('<p>', '</p>'), '', $post_content); //remove p tags
+            $post_content_length = mb_strlen( $post_content );
+            if( $post_content_length > 420 ){
+                $post_content = substr( $post_content, 0, 420 );
+                $post_content = $post_content . "...Read More";
+            }
             $image_url = get_the_post_thumbnail_url( $slide->ID, 'full');
             $image_id = get_attachment_id( $image_url );
             $image_path = wp_get_original_image_path( $image_id );
@@ -95,9 +104,13 @@ $index = 0; ?>
             $aspect_ratio = ( $image_width / $image_height ); 
             ?>
             <div id = <?php _e( $slide->post_name . '_slide_container')?> class="cape_slides" data-aspect-ratio="<?php echo $aspect_ratio; ?>" style="background-image:url('<?php echo $image_url; ?>');">
-                <p><?php _e( $slide_title ) ?> </p>
+                <div class="cape_post_content" <?php if( $index !== 0 ) { ?> style="display:none;" } <?php } ?> >
+                    <div class="cape_post_title"><p><?php _e( $slide_title ) ?> </p></div>
+                    <div class="cape_post_description"><p><?php echo $post_content;?></p></div>
+                </div>
             </div> 
-        <?php    
+        <?php 
+        ++$index;   
         }
     }
     ?>
@@ -128,25 +141,28 @@ $index = 0; ?>
         const right_arrow = container.querySelector('.next-right-arrow');
         const left_arrow = container.querySelector('.next-left-arrow'); 
         var image_index = 0;
-        const slide_length = slides.length;
+        const slide_length = slides.length+1;
         var new_slide_width, new_slide_height, horizontal_offset, vertical_offset, scale_max_dim, exposed_pixels, additive_placement = 0, set_zIndex, set_opcaity, negative_offset, scale_slide;
         set_zIndex = slide_length;
-        set_opacity = 1;
+        set_opacity = 1.2;
         const max_dim =  parseInt(container_styles.getPropertyValue('height'));
         right_arrow.style.left = ( container_width / 2 ) + ( max_dim / 2) + 48 + 'px'; 
         right_arrow.style.top = container_y + ( ( max_dim / 2 ) - 25 ) + 'px'; 
         left_arrow.style.right= ( container_width / 2 ) + ( max_dim / 2) + 48 + 'px';
         left_arrow.style.top = container_y + ( ( max_dim / 2 ) - 25 ) + 'px';
         const x_offsets = [ 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        // iteration method to be refined https://stackoverflow.com/questions/16053357/what-does-foreach-call-do-in-javascript
         Array.prototype.forEach.call(slides, function(element) {
                 element.style.opacity = set_opacity; 
                 element.style.zIndex = set_zIndex;
-                scale_slide = 1 -( 0.15 * image_index )
-                scale_max_dim = ( max_dim ) * scale_slide;
-                exposed_pixels = ( scale_max_dim / Math.pow( 2, (image_index + 1) ) ) ;
-                //placement must be additive in order to consistently place slides wrt the scaled dimensions
-                additive_placement = ( image_index === 0 ) ? 0 : additive_placement + exposed_pixels;
+                if( image_index < 5 ){
+                    scale_slide = 1 -( 0.15 * image_index )
+                    scale_max_dim = ( max_dim ) * scale_slide;
+                    exposed_pixels = ( scale_max_dim / Math.pow( 2, (image_index + 1) ) ) ;
+                    //placement must be additive in order to consistently place slides wrt the scaled dimensions
+                    additive_placement = ( image_index === 0 ) ? 0 : additive_placement + exposed_pixels;
+                    --set_zIndex;
+                    set_opacity = set_opacity - 0.2;
+                }
                 new_slide_height = new_slide_width = scale_max_dim;
                 element.style.height = new_slide_height + 'px';
                 element.style.width = new_slide_width + 'px';
@@ -162,14 +178,14 @@ $index = 0; ?>
                     horizontal_offset : horizontal_offset,
                     zindex : set_zIndex
                 }
-                x_offsets[ 4 + image_index ] = horizontal_offset;
-                if( image_index >= 1){
-                    negative_offset = container_x + (container_width - new_slide_width) / 2 - (max_dim - new_slide_width) / 2 - additive_placement;
-                    x_offsets [ 4 - image_index ] = negative_offset;
+                if( image_index < 5){
+                    x_offsets[ 4 + image_index ] = horizontal_offset;
+                    if( image_index >= 1){
+                        negative_offset = container_x + (container_width - new_slide_width) / 2 - (max_dim - new_slide_width) / 2 - additive_placement;
+                        x_offsets [ 4 - image_index ] = negative_offset;
+                    }
                 }
                 ++image_index;
-                --set_zIndex;
-                set_opacity = set_opacity - 0.2;
                 set_opacity = parseFloat(set_opacity.toFixed(2)); //map opacity to a fixed floating point
             });
             container.properties = { maximum_dimension : max_dim,
@@ -178,4 +194,4 @@ $index = 0; ?>
                 y_position : container_y};
 }
 </script>
-
+<!-- slide positioning -->
